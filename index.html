@@ -274,9 +274,9 @@
     <span id="avail-display"></span><br>
     Inquiries welcome
   </div>
-  <div class="footer-contact">
-    <!-- 把你的email換進去 -->
-    <a href="mailto:your@email.com">your@email.com</a>
+  <div class="footer-contact" style="display:flex;gap:1.5rem;align-items:center">
+    <a href="https://instagram.com/victoria_hanare" target="_blank">@victoria_hanare</a>
+    <a href="mailto:vpyy830@gmail.com">vpyy830@gmail.com</a>
   </div>
 </footer>
 
@@ -450,8 +450,7 @@ function buildGrid(drawings) {
 
 function inquire(e, title) {
   e.stopPropagation();
-  // 換成你的 email
-  window.location.href = `mailto:your@email.com?subject=Inquiry: ${encodeURIComponent(title)}&body=Hi Victoria,%0A%0AI'm interested in "${encodeURIComponent(title)}". Could you share more details?%0A%0AThank you`;
+  window.location.href = `mailto:vpyy830@gmail.com?subject=Inquiry: ${encodeURIComponent(title)}&body=Hi Victoria,%0A%0AI'm interested in "${encodeURIComponent(title)}". Could you share more details?%0A%0AThank you`;
 }
 
 // 載入資料
