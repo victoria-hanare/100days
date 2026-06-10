@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>100 Days of Drawing — Victoria Yu</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #F4F0EA;
+    font-family: 'Georgia', serif;
+    color: #3A3835;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    padding: 2.5rem 3.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 0.5px solid #D4CFC6;
+  }
+  .site-title {
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+  .site-meta {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: #A09D96;
+    letter-spacing: 0.07em;
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* ── Tag bar ── */
+  .tag-bar {
+    padding: 1rem 3.5rem;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    border-bottom: 0.5px solid #D4CFC6;
+    flex-wrap: wrap;
+  }
+  .tag-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    color: #A09D96;
+    letter-spacing: 0.1em;
+    margin-right: 4px;
+  }
+  .tag-pill {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 0.5px solid #C4BFB6;
+    background: transparent;
+    color: #7A7770;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+  }
+  .tag-pill:hover { background: #EAE6DE; }
+  .tag-pill.active {
+    background: #3A3835;
+    color: #F4F0EA;
+    border-color: #3A3835;
+  }
+
+  /* ── Grid ── */
+  .grid-wrap {
+    padding: 2rem 3.5rem 1rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+
+  /* ── Cell ── */
+  .cell {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    cursor: pointer;
+    background: #EDE8DF;
+  }
+  .cell img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .cell:hover img { transform: scale(1.03); }
+
+  .cell-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(244, 240, 234, 0.93);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px 18px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .cell:hover .cell-overlay { opacity: 1; }
+
+  .cell-day {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    color: #A09D96;
+    letter-spacing: 0.12em;
+    margin-bottom: 6px;
+  }
+  .cell-title {
+    font-size: 14px;
+    font-weight: 400;
+    color: #3A3835;
+    line-height: 1.35;
+    margin-bottom: 5px;
+  }
+  .cell-medium {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    color: #9A9690;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .cell-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+  .cell-tag {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 20px;
+    border: 0.5px solid #C4BFB6;
+    color: #9A9690;
+  }
+  .cell-price {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    color: #3A3835;
+    letter-spacing: 0.03em;
+  }
+  .cell-price.sold {
+    color: #A09D96;
+    text-decoration: line-through;
+  }
+  .cell-inquire {
+    margin-top: 8px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    padding: 5px 12px;
+    border: 0.5px solid #C4BFB6;
+    background: transparent;
+    color: #7A7770;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s;
+    width: fit-content;
+  }
+  .cell-inquire:hover {
+    background: #3A3835;
+    color: #F4F0EA;
+    border-color: #3A3835;
+  }
+
+  /* sold overlay mark */
+  .sold-mark {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.07em;
+    background: rgba(244,240,234,0.85);
+    color: #A09D96;
+    padding: 2px 8px;
+    border-radius: 20px;
+    pointer-events: none;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    padding: 1.5rem 3.5rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 0.5px solid #D4CFC6;
+    margin-top: 1rem;
+  }
+  .footer-text {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    color: #A09D96;
+    letter-spacing: 0.07em;
+    line-height: 1.8;
+  }
+  .footer-contact a {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    color: #7A7770;
+    letter-spacing: 0.07em;
+    text-decoration: none;
+    border-bottom: 0.5px solid #C4BFB6;
+    padding-bottom: 1px;
+  }
+
+  /* ── Loading / Error states ── */
+  .state-msg {
+    grid-column: 1 / -1;
+    padding: 3rem 0;
+    text-align: center;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    color: #A09D96;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .site-header, .tag-bar, .grid-wrap, .site-footer { padding-left: 2rem; padding-right: 2rem; }
+    .grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  }
+  @media (max-width: 600px) {
+    .site-header, .tag-bar, .grid-wrap, .site-footer { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .site-title { font-size: 18px; }
+  }
+  @media (max-width: 400px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div>
+    <div class="site-title">100 days of drawing</div>
+    <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#A09D96;margin-top:5px;letter-spacing:0.05em">
+      Victoria Yu · Tokyo · 2026
+    </div>
+  </div>
+  <div class="site-meta">
+    <span id="progress-display">— / 100</span><br>
+    原畫販售中
+  </div>
+</header>
+
+<div class="tag-bar" id="tag-bar" style="display:none">
+  <span class="tag-label">filter</span>
+  <button class="tag-pill active" data-tag="all">All</button>
+</div>
+
+<div class="grid-wrap">
+  <div class="grid" id="grid">
+    <div class="state-msg">Loading…</div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-text">
+    <span id="avail-display"></span><br>
+    Inquiries welcome
+  </div>
+  <div class="footer-contact">
+    <!-- 把你的email換進去 -->
+    <a href="mailto:your@email.com">your@email.com</a>
+  </div>
+</footer>
+
+<script>
+// ============================================================
+// ★  設定區：把你的 Google Sheets ID 填在這裡
+//
+//    步驟：
+//    1. 開啟你的 Google Sheet
+//    2. 點選「檔案」→「共用」→「發布到網路」
+//    3. 選擇「整份文件」+「逗號分隔值 (.csv)」→ 發布
+//    4. 把網址裡 /spreadsheets/d/ 後面那串 ID 複製貼到下面
+//
+//    範例 ID：1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms
+// ============================================================
+// ============================================================
+// Google Sheet 欄位順序（第一行是標題，從第二行開始是資料）
+//
+//  A: day       → 第幾天 (數字，例如 1)
+//  B: title     → 作品標題
+//  C: medium    → 媒材 (例如: Watercolour · A5)
+//  D: price     → 價格 (例如: ¥8,000)
+//  E: sold      → 是否售出 (填 true 或 false)
+//  F: tags      → 標籤，多個用逗號分開 (例如: plants,watercolour)
+//  G: img_url   → 圖片網址（Drive 分享連結直接貼）
+//  H: note      → 備註（可空白）
+// ============================================================
+
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT7RfdhDWdcrBERxF68aDpG2l_ap0oZurdDVfu0Ef6uF7YfB6ERCdBzema0M14jPi4q7rO-Gyelgv89/pub?output=csv';
+
+// Drive 圖片連結轉換
+function driveUrl(raw) {
+  if (!raw) return '';
+  // 已經是直接圖片連結
+  if (raw.startsWith('http') && !raw.includes('drive.google')) return raw;
+  // 從分享連結提取 ID
+  let id = raw;
+  const m = raw.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (m) id = m[1];
+  // 如果只貼了 ID
+  return `https://drive.google.com/thumbnail?id=${id}&sz=w600`;
+}
+
+// 解析 CSV（處理有逗號的欄位）
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  return lines.slice(1).map(line => {
+    const cols = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') { inQ = !inQ; }
+      else if (ch === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
+      else { cur += ch; }
+    }
+    cols.push(cur.trim());
+    return {
+      day:    parseInt(cols[0]) || 0,
+      title:  cols[1] || '',
+      medium: cols[2] || '',
+      price:  cols[3] || '',
+      sold:   (cols[4] || '').toLowerCase() === 'true',
+      tags:   (cols[5] || '').split(',').map(t => t.trim()).filter(Boolean),
+      img:    driveUrl(cols[6] || ''),
+      note:   cols[7] || '',
+    };
+  }).filter(d => d.day > 0 && d.title);
+}
+
+// 收集所有 tags
+function collectTags(drawings) {
+  const set = new Set();
+  drawings.forEach(d => d.tags.forEach(t => { if (t) set.add(t); }));
+  return [...set].sort();
+}
+
+// 建立 tag bar
+function buildTagBar(tags) {
+  const bar = document.getElementById('tag-bar');
+  // 清除舊的（保留 All）
+  [...bar.querySelectorAll('.tag-pill:not([data-tag="all"])')].forEach(el => el.remove());
+  tags.forEach(tag => {
+    const btn = document.createElement('button');
+    btn.className = 'tag-pill';
+    btn.dataset.tag = tag;
+    btn.textContent = tag;
+    bar.appendChild(btn);
+  });
+  // Available filter
+  const avail = document.createElement('button');
+  avail.className = 'tag-pill';
+  avail.dataset.tag = '__available__';
+  avail.textContent = 'Available';
+  bar.appendChild(avail);
+
+  bar.style.display = 'flex';
+
+  bar.querySelectorAll('.tag-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      bar.querySelectorAll('.tag-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      filterGrid(pill.dataset.tag);
+    });
+  });
+}
+
+let currentFilter = 'all';
+function filterGrid(tag) {
+  currentFilter = tag;
+  const cells = document.querySelectorAll('.cell');
+  let shown = 0;
+  cells.forEach(cell => {
+    const cellTags = (cell.dataset.tags || '').split(',');
+    const isAvail = cell.dataset.sold !== 'true';
+    let show = tag === 'all'
+      || cellTags.includes(tag)
+      || (tag === '__available__' && isAvail);
+    cell.style.display = show ? '' : 'none';
+    if (show) shown++;
+  });
+}
+
+// 建立 grid
+function buildGrid(drawings) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+
+  if (!drawings.length) {
+    grid.innerHTML = '<div class="state-msg">No drawings yet — check back soon.</div>';
+    return;
+  }
+
+  const availCount = drawings.filter(d => !d.sold).length;
+  document.getElementById('progress-display').textContent = `${drawings.length} / 100`;
+  document.getElementById('avail-display').textContent = `${availCount} works available`;
+
+  drawings.forEach(d => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.dataset.tags = d.tags.join(',');
+    cell.dataset.sold = d.sold;
+
+    const dayStr = 'Day ' + String(d.day).padStart(2, '0');
+    const tagsHTML = d.tags.map(t => `<span class="cell-tag">${t}</span>`).join('');
+    const priceHTML = d.sold
+      ? `<div class="cell-price sold">${d.price}</div>`
+      : `<div class="cell-price">${d.price}</div>`;
+    const inquireBtn = d.sold
+      ? ''
+      : `<button class="cell-inquire" onclick="inquire(event,'${d.title.replace(/'/g,"\\'")}')">Inquire →</button>`;
+
+    cell.innerHTML = `
+      ${d.img ? `<img src="${d.img}" alt="${d.title}" loading="lazy">` : ''}
+      ${d.sold ? '<div class="sold-mark">Sold</div>' : ''}
+      <div class="cell-overlay">
+        <div class="cell-day">${dayStr}</div>
+        <div class="cell-title">${d.title}</div>
+        <div class="cell-medium">${d.medium}</div>
+        ${tagsHTML ? `<div class="cell-tags">${tagsHTML}</div>` : ''}
+        ${priceHTML}
+        ${inquireBtn}
+      </div>`;
+
+    grid.appendChild(cell);
+  });
+
+  // rebuild tags
+  const tags = collectTags(drawings);
+  if (tags.length) buildTagBar(tags);
+}
+
+function inquire(e, title) {
+  e.stopPropagation();
+  // 換成你的 email
+  window.location.href = `mailto:your@email.com?subject=Inquiry: ${encodeURIComponent(title)}&body=Hi Victoria,%0A%0AI'm interested in "${encodeURIComponent(title)}". Could you share more details?%0A%0AThank you`;
+}
+
+// 載入資料
+async function load() {
+  try {
+    const res = await fetch(CSV_URL);
+    if (!res.ok) throw new Error('fetch failed');
+    const text = await res.text();
+    const drawings = parseCSV(text);
+    buildGrid(drawings);
+  } catch (err) {
+    document.getElementById('grid').innerHTML = `
+      <div class="state-msg">
+        讀取失敗。請確認：<br>
+        1. Google Sheet 已「發布到網路」<br>
+        2. SHEET_ID 填寫正確<br><br>
+        <small style="opacity:0.6">${err.message}</small>
+      </div>`;
+  }
+}
+
+load();
+</script>
+</body>
+</html>
