@@ -74,9 +74,12 @@
     .grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
   }
   @media (max-width: 640px) {
-    .lb-box { grid-template-columns: 1fr; }
-    .lb-img-wrap { min-height: 200px; max-height: 45vw; }
-    .lb-info { padding: 1.5rem; }
+    .lb-backdrop { padding: 1.25rem; align-items: flex-start; padding-top: 2.5rem; }
+    .lb-box { grid-template-columns: 1fr; overflow-y: auto; max-height: 88vh; }
+    .lb-img-wrap { min-height: 180px; max-height: 50vw; position: relative; }
+    .lb-info { padding: 1.25rem 1.25rem 1.5rem; }
+    .lb-close { position: absolute; top: -2rem; right: 0; color: #F2F0ED; opacity: 0.8; font-size: 16px; }
+    .lb-close:hover { opacity: 1; }
   }
   @media (max-width: 600px) {
     .site-header, .tag-bar, .grid-wrap, .site-footer { padding-left: 1.25rem; padding-right: 1.25rem; }
