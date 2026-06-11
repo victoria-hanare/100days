@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>100 Days of Drawing — Victoria Yu</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Raleway:wght@200;300;400&display=swap');family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background: #F4F0EA;
-    font-family: 'Georgia', serif;
-    color: #3A3835;
+    background: #F2F0ED;
+    font-family: 'Libre Baskerville', Georgia, serif;
+    color: #1A1A1A;
   }
 
   /* ── Header ── */
@@ -21,10 +22,10 @@
     align-items: flex-end;
     border-bottom: none;
   }
-  .site-title { font-size: 22px; font-weight: 400; letter-spacing: 0.01em; }
+  .site-title { font-size: 22px; font-weight: 300; letter-spacing: 0.08em; font-family: 'Cormorant Garamond', Georgia, serif; color: #1A1A1A; text-transform: uppercase; letter-spacing: 0.18em; font-weight: 300; font-size: 24px; }
   .site-meta {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 11px; color: #A09D96; letter-spacing: 0.07em;
+    font-size: 11px; color: #888888; letter-spacing: 0.07em;
     text-align: right; line-height: 1.8;
   }
 
@@ -36,25 +37,25 @@
   }
   .tag-label {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 10px; color: #A09D96; letter-spacing: 0.1em; margin-right: 4px;
+    font-size: 10px; color: #888888; letter-spacing: 0.1em; margin-right: 4px;
   }
   .tag-pill {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 10px; padding: 4px 12px; border-radius: 20px;
-    border: 0.5px solid #C4BFB6; background: transparent;
-    color: #7A7770; cursor: pointer; letter-spacing: 0.05em; transition: all 0.15s;
+    border: 0.5px solid #CCCAC6; background: transparent;
+    color: #555555; cursor: pointer; letter-spacing: 0.05em; transition: all 0.15s;
   }
-  .tag-pill:hover { background: #EAE6DE; }
-  .tag-pill.active { background: #3A3835; color: #F4F0EA; border-color: #3A3835; }
+  .tag-pill:hover { background: #F5F5F5; }
+  .tag-pill.active { background: #1A1A1A; color: #FFFFFF; border-color: #1A1A1A; }
 
   /* ── Grid ── */
   .grid-wrap { padding: 2rem 3.5rem 1rem; }
-  .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
 
   /* ── Cell ── */
   .cell {
     position: relative; aspect-ratio: 1 / 1;
-    overflow: hidden; cursor: pointer; background: #EDE8DF;
+    overflow: hidden; cursor: pointer; background: #F0EEEB;
   }
   .cell img {
     display: block; width: 100%; height: 100%;
@@ -63,61 +64,61 @@
   .cell:hover img { transform: scale(1.03); }
   .cell-overlay {
     position: absolute; inset: 0;
-    background: rgba(244, 240, 234, 0.93);
+    background: rgba(242, 240, 237, 0.93);
     display: flex; flex-direction: column; justify-content: center;
     padding: 16px 18px; opacity: 0; transition: opacity 0.2s ease;
   }
   .cell:hover .cell-overlay { opacity: 1; }
   .cell-day {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 9px; color: #A09D96; letter-spacing: 0.12em; margin-bottom: 6px;
+    font-size: 9px; color: #888888; letter-spacing: 0.12em; margin-bottom: 6px;
   }
-  .cell-title { font-size: 14px; font-weight: 400; color: #3A3835; line-height: 1.35; margin-bottom: 5px; }
+  .cell-title { font-size: 14px; font-weight: 400; color: #1A1A1A; line-height: 1.35; margin-bottom: 5px; }
   .cell-medium {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 9px; color: #9A9690; letter-spacing: 0.06em;
+    font-size: 9px; color: #999999; letter-spacing: 0.06em;
     text-transform: uppercase; margin-bottom: 10px;
   }
   .cell-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
   .cell-tag {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 9px; padding: 2px 7px; border-radius: 20px;
-    border: 0.5px solid #C4BFB6; color: #9A9690;
+    border: 0.5px solid #CCCAC6; color: #999999;
   }
   .cell-price {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 12px; color: #3A3835; letter-spacing: 0.03em;
+    font-size: 12px; color: #1A1A1A; letter-spacing: 0.03em;
   }
-  .cell-price.sold { color: #A09D96; text-decoration: line-through; }
+  .cell-price.sold { color: #888888; text-decoration: line-through; }
   .sold-mark {
     position: absolute; top: 10px; right: 10px;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 9px; letter-spacing: 0.07em;
-    background: rgba(244,240,234,0.85); color: #A09D96;
+    background: rgba(242, 240, 237, 0.85); color: #888888;
     padding: 2px 8px; border-radius: 20px; pointer-events: none;
   }
 
   /* ── Lightbox ── */
   .lb-backdrop {
     display: none; position: fixed; inset: 0;
-    background: rgba(40, 38, 35, 0.88);
+    background: rgba(10, 10, 10, 0.88);
     z-index: 100; align-items: center; justify-content: center; padding: 2rem;
   }
   .lb-backdrop.open { display: flex; }
   .lb-box {
-    background: #F4F0EA; max-width: 820px; width: 100%;
+    background: #F2F0ED; max-width: 820px; width: 100%;
     display: grid; grid-template-columns: 1fr 1fr;
     max-height: 90vh; overflow: hidden; position: relative;
   }
   .lb-img-wrap {
-    background: #EDE8DF;
+    background: #F0EEEB;
     display: flex; align-items: center; justify-content: center;
     overflow: hidden; min-height: 320px;
   }
   .lb-img-wrap img { width: 100%; height: 100%; object-fit: contain; max-height: 90vh; }
   .lb-img-placeholder {
     width: 100%; height: 100%; min-height: 320px;
-    background: #E4DDD4;
+    background: #F0EEEB;
   }
   .lb-info {
     padding: 2.5rem 2rem; display: flex; flex-direction: column;
@@ -125,39 +126,39 @@
   }
   .lb-day {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 10px; color: #A09D96; letter-spacing: 0.12em;
+    font-size: 10px; color: #888888; letter-spacing: 0.12em;
   }
-  .lb-title { font-size: 20px; font-weight: 400; color: #3A3835; line-height: 1.3; }
+  .lb-title { font-size: 20px; font-weight: 400; color: #1A1A1A; line-height: 1.3; }
   .lb-medium {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 10px; color: #9A9690; letter-spacing: 0.07em; text-transform: uppercase;
+    font-size: 10px; color: #999999; letter-spacing: 0.07em; text-transform: uppercase;
   }
   .lb-note {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 12px; color: #7A7770; line-height: 1.75; margin-top: 4px;
+    font-size: 12px; color: #555555; line-height: 1.75; margin-top: 4px;
   }
-  .lb-divider { border: none; border-top: 0.5px solid #D4CFC6; margin: 4px 0; }
+  .lb-divider { border: none; border-top: 0.5px solid #DDDBD7; margin: 4px 0; }
   .lb-price {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 11px; color: #3A3835; letter-spacing: 0.03em;
+    font-size: 11px; color: #1A1A1A; letter-spacing: 0.03em;
   }
-  .lb-price.sold { color: #A09D96; text-decoration: line-through; }
+  .lb-price.sold { color: #888888; text-decoration: line-through; }
   .lb-sold-note {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 10px; color: #A09D96; letter-spacing: 0.07em;
+    font-size: 10px; color: #888888; letter-spacing: 0.07em;
   }
   .lb-inquire {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 10px; letter-spacing: 0.08em;
-    padding: 8px 18px; border: 0.5px solid #C4BFB6;
-    background: transparent; color: #7A7770; cursor: pointer;
+    padding: 8px 18px; border: 0.5px solid #CCCAC6;
+    background: transparent; color: #555555; cursor: pointer;
     border-radius: 2px; transition: all 0.15s; width: fit-content; margin-top: 4px;
   }
-  .lb-inquire:hover { background: #3A3835; color: #F4F0EA; border-color: #3A3835; }
+  .lb-inquire:hover { background: #1A1A1A; color: #FFFFFF; border-color: #1A1A1A; }
   .lb-close {
     position: absolute; top: 1rem; right: 1.25rem;
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 18px; color: #3A3835; cursor: pointer;
+    font-size: 18px; color: #1A1A1A; cursor: pointer;
     background: none; border: none; opacity: 0.4; line-height: 1;
   }
   .lb-close:hover { opacity: 1; }
@@ -170,25 +171,25 @@
   }
   .footer-text {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 10px; color: #A09D96; letter-spacing: 0.07em; line-height: 1.8;
+    font-size: 10px; color: #888888; letter-spacing: 0.07em; line-height: 1.8;
   }
   .footer-contact a {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 10px; color: #7A7770; letter-spacing: 0.07em;
-    text-decoration: none; border-bottom: 0.5px solid #C4BFB6; padding-bottom: 1px;
+    font-size: 10px; color: #555555; letter-spacing: 0.07em;
+    text-decoration: none; border-bottom: 0.5px solid #CCCAC6; padding-bottom: 1px;
   }
 
   /* ── Loading / Error ── */
   .state-msg {
     grid-column: 1 / -1; padding: 3rem 0; text-align: center;
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 12px; color: #A09D96; letter-spacing: 0.06em;
+    font-size: 12px; color: #888888; letter-spacing: 0.06em;
   }
 
   /* ── Responsive ── */
   @media (max-width: 900px) {
     .site-header, .tag-bar, .grid-wrap, .site-footer { padding-left: 2rem; padding-right: 2rem; }
-    .grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
   }
   @media (max-width: 640px) {
     .lb-box { grid-template-columns: 1fr; }
@@ -197,7 +198,7 @@
   }
   @media (max-width: 600px) {
     .site-header, .tag-bar, .grid-wrap, .site-footer { padding-left: 1.25rem; padding-right: 1.25rem; }
-    .grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
     .site-title { font-size: 18px; }
   }
   @media (max-width: 400px) {
